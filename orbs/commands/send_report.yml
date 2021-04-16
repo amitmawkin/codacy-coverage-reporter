@@ -1,0 +1,58 @@
+description: "Download Codacy's coverage reporter and run it"
+
+parameters:
+  tool_version:
+    type: string
+    default: ''
+    description: "Specify Codacy's coverage reporter tool version"
+  project-token:
+    type: string
+    default: ${CODACY_PROJECT_TOKEN}
+    description: Specify Codacy's project token
+  coverage-reports:
+    type: string
+    description: 'Optional comma separated list of coverage reports to send to Codacy'
+    default: ''
+  skip:
+    type: boolean
+    description: Skip if token isn't defined. Useful to let forks CI pass without passing secrets
+    default: false
+
+steps:
+  - run:
+      name: Upload Coverage Results to Codacy
+      command: |
+        export CODACY_REPORTER_VERSION=<< parameters.tool_version >>
+
+        export CODACY_PROJECT_TOKEN=<< parameters.project-token >>
+        # comma separated list of report files
+        # reference from https://unix.stackexchange.com/a/191125
+        # plus https://stackoverflow.com/a/20323801/7898052
+        report_array=$(printf "<< parameters.coverage-reports >>" | cut -d',' -f1)
+
+        params=''
+        for report in $report_array
+        do
+            if [ ! -z "$report" ]
+            then
+                params="$params -r $report"
+            fi
+        done
+
+        if << parameters.skip >>; then
+            skip_option="--skip"
+        else
+            skip_option=""
+        fi
+
+
+        if [ -x "$(which curl)" ]; then
+            curl -Ls https://coverage.codacy.com/get.sh > get.sh
+        elif [ -x "$(which wget)" ] ; then
+            wget -qO - https://coverage.codacy.com/get.sh > get.sh
+        else
+            printf "Could not find curl or wget, please install one."
+        fi
+        
+        source get.sh report $params --partial $skip_option &&\
+        source get.sh final $skip_option

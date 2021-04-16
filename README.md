@@ -1,79 +1,69 @@
-# codacy-coverage-reporter
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/1c524e61cd8640e79b80d406eda8754b)](https://www.codacy.com/app/Codacy/codacy-coverage-reporter)
+# Codacy Coverage Reporter
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1c524e61cd8640e79b80d406eda8754b)](https://www.codacy.com/gh/codacy/codacy-coverage-reporter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codacy/codacy-coverage-reporter&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/1c524e61cd8640e79b80d406eda8754b)](https://www.codacy.com/gh/codacy/codacy-coverage-reporter?utm_source=github.com&utm_medium=referral&utm_content=codacy/codacy-coverage-reporter&utm_campaign=Badge_Coverage)
 [![Build Status](https://circleci.com/gh/codacy/codacy-coverage-reporter.png?style=shield&circle-token=:circle-token)](https://circleci.com/gh/codacy/codacy-coverage-reporter)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.codacy/codacy-coverage-reporter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.codacy/codacy-coverage-reporter)
 
 Multi-language coverage reporter for Codacy https://www.codacy.com
 
-```
-codacy-coverage-reporter will only work with:
-  * Java JRE 7 and higher
-```
-
 ## Setup
 
-Codacy assumes that coverage is previously configured for your project.
+Follow the instructions on how to [add coverage to your repository](https://docs.codacy.com/coverage-reporter/adding-coverage-to-your-repository/).
 
-You can install the coverage reporter by running:
+If necessary, see [alternative ways of running Codacy Coverage Reporter](https://docs.codacy.com/coverage-reporter/alternative-ways-of-running-coverage-reporter/) for other ways of running Codacy Coverage Reporter, such as by installing the binary manually or using a CircleCI Orb or GitHub Action.
 
-### [Install jpm](https://www.jpm4j.org/#!/md/install)
-```
-curl http://www.jpm4j.org/install/script | sh
-```
+For a complete list of commands and options, run the Codacy Coverage Reporter with the flag `--help`. For example:
 
-### Install codacy-coverage-reporter
-```
-jpm install com.codacy:codacy-coverage-reporter:assembly
-```
+```bash
+$ bash <(curl -Ls https://coverage.codacy.com/get.sh) report --help
+     ______          __
+    / ____/___  ____/ /___ ________  __
+   / /   / __ \/ __  / __ `/ ___/ / / /
+  / /___/ /_/ / /_/ / /_/ / /__/ /_/ /
+  \____/\____/\__,_/\__,_/\___/\__, /
+                              /____/
 
-## Updating Codacy
+  Codacy Coverage Reporter
 
-To update Codacy, you will need your project API token. You can find the token in Project -> Settings -> Integrations -> Project API.
+ --> Using codacy reporter codacy-coverage-reporter-linux from cache
+Command: report
+Usage: codacy-coverage-reporter report 
+  --project-token | -t  <your project API token>
+  --api-token | -t  <your account API token>
+  --organization-provider  <the project organization provider> (manual, gh, bb, ghe, bbe, gl, gle)
+  --username | -u  <the project owner name>
+  --project-name | -p  <your project name>
+  --codacy-api-base-url  <the base URL for the Codacy API>
+  --commit-uuid  <your commitUUID>
+  --skip | -s  <skip if token isn't defined>
+  --language | -l  <your project language>
+  --coverage-reports | -r  <your project coverage file name>
+  --partial  <if the report is partial>
+  --prefix  <the project path prefix>
+  --force-coverage-parser  <your coverage parser>
+        Available parsers are: opencover,clover,lcov,phpunit,jacoco,dotcover,cobertura
 
-Then set it in your terminal, replacing %Project_Token% with your own token:
 
-```
-export CODACY_PROJECT_TOKEN=%Project_Token%
-```
-
-Next, simply run the Codacy reporter. It will find the current commit and send all details to your project dashboard:
-
-```
-codacy-coverage-reporter -l Java -r coverage.xml
-```
-
-## Java 6
-
-Due to a limitation in Java 6, the plugin is unable to establish a connection to codacy.com.
-You can run [this script](https://gist.github.com/mrfyda/51cdf48fa0722593db6a) after the execution to upload the generated report to Codacy.
-
-
-## Troubleshooting
-
-If you receive a `Failed to upload report: Not Found`error when running the command, then you'll probably have codacy-coverage-reporter 1.0.3 installed. Make sure you install version 1.0.4, that fixes that error.
-
-Example (issue: [#11](https://github.com/codacy/codacy-coverage-reporter/issues/11)) : 
-```
-codacy-coverage-reporter -l Java -r PATH_TO_COVERAGE/coverage.xml
-2015-11-20 04:06:58,887 [info]  com.codacy Parsing coverage data... 
-2015-11-20 04:06:59,506 [info]  com.codacy Uploading coverage data... 
-
-2015-11-20 04:07:00,639 [error] com.codacy Failed to upload report: Not Found
-```
-Even after doing all of the above troubleshooting steps in case you still encounter the same error 
-
-```
-2015-11-20 04:07:00,639 [error] com.codacy Failed to upload report: Not Found 
+ --> Succeeded!
 ```
 
-Please try running the command with a --prefix option with path to your code  as shown below , it helps to locate the files for which code coverage is desired
+## What is Codacy?
 
-```
-codacy-coverage-reporter -l Java -r PATH_TO_COVERAGE/coverage.xml --prefix PATH_TO_THE_DIRECTORY 
-```
+[Codacy](https://www.codacy.com/) is an Automated Code Review Tool that monitors your technical debt, helps you improve your code quality, teaches best practices to your developers, and helps you save time in Code Reviews.
 
-Example
+### Among Codacy’s features:
 
-```
-codacy-coverage-reporter -l Java -r api/target/site/jacoco/jacoco.xml --prefix api/src/main/java/
-```
+- Identify new Static Analysis issues
+- Commit and Pull Request Analysis with GitHub, GitLab, and Bitbucket
+- Auto-comments on Commits and Pull Requests
+- Integrations with Slack and Jira
+- Track issues in Code Style, Security, Error Proneness, Performance, Unused Code and other categories
+
+Codacy also helps keep track of Code Coverage, Code Duplication, and Code Complexity.
+
+Codacy supports PHP, Python, Ruby, Java, JavaScript, and Scala, among others.
+
+### Free for Open Source
+
+Codacy is free for Open Source projects.
